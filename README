@@ -1,0 +1,1 @@
+ESP32 client SW that connects to an ABL eSMhome SmartMeter to switch on electrical consumers when there is a surplus of energy.
