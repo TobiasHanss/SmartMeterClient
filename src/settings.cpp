@@ -1,6 +1,6 @@
 #include "settings.h"
 #include "debug.h"
-#include <SPIFFS.h>
+
 
 CSettings::CSettings(const char *sFileName, size_t maxSize )
 {

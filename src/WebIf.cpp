@@ -78,7 +78,6 @@ void WebIf::onSettingsPost(void)
     }
     Settings.save();
     m_oServer->send(200, "text/plain", ""); //Send web page
-    
 
 }
 

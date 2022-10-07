@@ -1,6 +1,6 @@
 #include "eMShome.h"
 #include "debug.h"
-#include "OLED.h"
+//#include "OLED.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
@@ -474,7 +474,7 @@ void eMShome::updateDataPoint(uint64_t Key, uint64_t Value)
 void eMShome::printMeasurmen (void)
 {
   int Y = 1;
-  DisplayClear();
+  //DisplayClear();
   for (size_t i = 0 ; i < (sizeof(dataPoint) / sizeof (sDataPoint)); i++)
   {
     if (dataPoint[i].Value > 0)
@@ -482,7 +482,7 @@ void eMShome::printMeasurmen (void)
        float Value = dataPoint[i].Value;
        Value = (Value / pow(10,dataPoint[i].PowerOfTen))*dataPoint[i].Sign;
        //qDebug("%s: %.1f %s\n",dataPoint[i].Name,Value,dataPoint[i].Unit);
-       DisplayPrint(0, Y+=10,"%s: %.1f %s\n",dataPoint[i].Name,Value,dataPoint[i].Unit);
+       //DisplayPrint(0, Y+=10,"%s: %.1f %s\n",dataPoint[i].Name,Value,dataPoint[i].Unit);
     }
   }
 }
