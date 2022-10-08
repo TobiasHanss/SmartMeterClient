@@ -7,15 +7,18 @@ class WebIf
 public:
     WebIf(int nPort);
 
-    void init(void);
+    void init(bool setupMode = false);
     void update(void);
 
 private:
+
     void onRequestData(void);
     void onSettingsPost(void);
     void onOutputPost(void);
     void onConfigPost(void);
     void onSecure(void);
+    void onSetup(void);
+    void onSetupPost(void);
     void listFiles(void);    
     WebServer *m_oServer;
 

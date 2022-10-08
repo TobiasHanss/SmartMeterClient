@@ -14,7 +14,7 @@ CSettings::CSettings(const char *sFileName, size_t maxSize )
 
 void CSettings::load(void)
 {
-    Serial.printf("%s():\n",__func__);
+    //Serial.printf("%s():\n",__func__);
     File file = SPIFFS.open(m_sFileName);
     DeserializationError error = deserializeJson(*m_pJSON, file);
     if (error) 

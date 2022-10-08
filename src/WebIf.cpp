@@ -10,6 +10,7 @@
 extern eMShome SmartMeter;
 extern CSettings Settings;
 extern CSettings Config;
+extern CSettings Secure;
 extern COutput Outputs;
 
 
@@ -29,7 +30,7 @@ void WebIf::listFiles()
     }
 }
 
-void WebIf::init()
+void WebIf::init(bool setupMode)
 {
 
     if (!SPIFFS.begin(true)) {
@@ -37,20 +38,55 @@ void WebIf::init()
     }
 
     //listFiles();
-       
-    m_oServer->on("/data.json", std::bind(&WebIf::onRequestData,this));
 
-    m_oServer->on("/settings.post", HTTP_POST ,std::bind(&WebIf::onSettingsPost,this));
-
-    m_oServer->on("/output.post", HTTP_POST ,std::bind(&WebIf::onOutputPost,this));
-
-    m_oServer->on("/config.post", HTTP_POST ,std::bind(&WebIf::onConfigPost,this));
+    if (setupMode)
+    {
+        m_oServer->on("/", std::bind(&WebIf::onSetup,this));
+        m_oServer->on("/setup.post", HTTP_POST ,std::bind(&WebIf::onSetupPost,this));
+    }   
+    else
+    {    
+        m_oServer->on("/data.json", std::bind(&WebIf::onRequestData,this));
+        m_oServer->on("/settings.post", HTTP_POST ,std::bind(&WebIf::onSettingsPost,this));
+        m_oServer->on("/output.post", HTTP_POST ,std::bind(&WebIf::onOutputPost,this));
+        m_oServer->on("/config.post", HTTP_POST ,std::bind(&WebIf::onConfigPost,this));
+    }
 
     m_oServer->on("/secure.json", std::bind(&WebIf::onSecure,this));
-
     m_oServer->serveStatic("/", SPIFFS, "/");
 
     m_oServer->begin();
+}
+
+void WebIf::onSetup(void)
+{
+    const char * redirect =  R"(<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=setup.htm"></head><body><p>Please follow <a href="setup.htm">this link</a>.</p></body></html>)";
+    m_oServer->send(200, "text/html", redirect); 
+}
+
+void WebIf::onSetupPost(void)
+{
+    Serial.println("SetupPost");
+
+    for (int i = 0 ; i < m_oServer->args();i++ )
+    {
+        String Value = m_oServer->arg(i);
+        String Key = m_oServer->argName(i);       
+        if (Key == "PSK")
+        {
+            Secure.set(Key,Value);
+        }
+        else
+        {
+            Config.set(Key,Value);
+        }
+
+        Serial.printf("Key: %s Value: %s\n",Key,Value);
+    }
+    Config.save();
+    Secure.save();
+    m_oServer->send(200, "text/plain", ""); //Send web page
+    ESP.restart();
 }
 
 void WebIf::onSecure(void)

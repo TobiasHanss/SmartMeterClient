@@ -23,8 +23,8 @@ public:
        uint64_t Value;      // Value, the raw value came mostly in milli... mW for example
        int8_t   PowerOfTen; // Value * 10^x to get the correct unit (kW, W, MW etc.) 
        int8_t   Sign;       //-1 = negaitv value, 1= positiv value
-       char     *Name;      // Measurment Name
-       char     *Unit;      // Measurment Unit 
+       char const *Name;      // Measurment Name
+       char const *Unit;      // Measurment Unit 
   }sDataPoint;
 
   void update(void);

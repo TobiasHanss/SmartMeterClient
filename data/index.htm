@@ -32,23 +32,25 @@
     <div id="ConfigDiv" style="display: none;">
     <form action="config.post" method="post" target="dummy">
       <br><b>Config:</b> <hr>
-      <table style="width: 100%" BORDER="0">
+
+      <table style="width: 99%" BORDER="0">
         <tr>
-          <td style="width: 80px;">IP:</td>
-          <td style="width: 100px;" id="LOCAL_IP">10.1.2.5</td>
-          <td style="width: 90px;"> MAC:</td>
-          <td style=" text-align:right" id="MAC"> 45:sd:sd:sd:54:ss</td>
+          <td style="width: 90px;">IP:</td>
+          <td style="width: 90px;"id="LOCAL_IP">10.1.2.5</td>
+          <td style="text-align:right"> MAC:</td>
+          <td style="width: 120px;text-align:right" id="MAC"> 45:sd:sd:sd:54:ss</td>
         </tr>
         <tr>
           <td>SSID:</td>
           <td id="SSID"></td>
         </tr>
         </table>
-        <table style="width: 98%" BORDER="0">
-          <tr>
-            <td style="width: 100px;">Device Name:</td>
-            <td><input type="text" id="DevNameInput" name="DevName" value=""></td>
-          </tr>
+
+        <table style="width: 99%" BORDER="0">
+        <tr>
+          <td style="width: 90px;">Device Name:</td>
+          <td><input type="text" id="DevNameInput" name="DevName" value=""></td>
+        </tr>
         <tr>
           <td>eMS home IP:</td>
           <td><input type="text" id="eMShomeIP" name="eMShomeIP" value=""></td>
@@ -60,7 +62,11 @@
        
       </table>
       <br>
-      <button type="submit" >Save</button> 
+      <table style="width: 100%">
+        <tr>
+        <td style="width: 120px;text-align:center"><button type="submit" >Save</button></td>
+        </tr>
+      </table> 
     </form>
     </div>
 
@@ -93,11 +99,11 @@
     <form id="output" action="output.post" method="post" target="dummy">
       <br><b>Output:</b> <hr><br>
         <div> 
-          <table>
+          <table  style="width: 100%" BORDER="0">
             <tr>
-              <th style="width: 120px;text-align:center">L1</th>
-              <th style="width: 120px;text-align:center">L2</th>
-              <th style="width: 120px;text-align:center">L3</th>
+              <th style="text-align:center">L1</th>
+              <th style="text-align:center">L2</th>
+              <th style="text-align:center">L3</th>
             </tr>
             <tr>
               <td style="text-align:center">  
@@ -124,14 +130,14 @@
 
     <form id="settings" action="settings.post" method="post" target="dummy">
       <br><b>Switching rules:</b> <hr>
-      <table>
+      <table BORDER="0">
         <tr>
-          <th style="width: 50px;">Rule</th>
-          <th style="width: 50px;">Line</th>
+          <th style="width: 30px;">Rule</th>
+          <th style="width: 30px;">Line</th>
           <th style="width: 50px; text-align:center">On @</th>
-          <th style="width: 50px;"></th>
+          <th style="width: 40px;"></th>
           <th style="width: 50px; text-align:center">Off @</th>
-          <th style="width: 50px;"></th>
+          <th style="width: 40px;"></th>
           <th style="width: 50px;">Enabled</th>
         </tr>
         <tr>
@@ -188,12 +194,10 @@
           <td>s</td>
       </tr>
       </table> 
-
       <br>
       <table style="width: 100%">
         <tr>
-          <td style=" text-align:left"> <button type="submit" >Save</button>  </td>
-          <td style=" text-align:right"> <button onClick="window.location.reload();">Refresh Page</button> </td>
+          <td style=" text-align:center"> <button type="submit" >Save</button></td>
         </tr>
       </table> 
     </form>

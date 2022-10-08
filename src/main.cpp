@@ -7,6 +7,7 @@
 #include "WebIf.h"
 #include "output.h"
 #include <ArduinoOTA.h>
+#include <WiFiAP.h>
 
 #define LED 2
 
@@ -18,6 +19,7 @@ COutput Outputs;
 WebIf   WebInterface(80);
 eMShome SmartMeter(Config.get("eMShomeIP"),Config.get("eMShomePW"));
 
+bool bInSetupMode = false;
 
 //************************************************************
 //************************************************************
@@ -52,19 +54,33 @@ void SetupOTA(void)
 }
 
 
+//************************************************************
+//************************************************************
+void SetupAP(void)
+{
+  String sSSID = Config.get("DevName");
+  sSSID.replace(" ","");
+  char cSSID[12];
+  sSSID.toCharArray(cSSID,sizeof(cSSID));
+  Serial.printf("AP SSID:%s",cSSID);
+  WiFi.softAP(cSSID);
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+}
+
 
 //************************************************************
 //************************************************************
 void Connect2LocalWifi(void)
 {
-  
-  //InitDisplay();
-  //DisplayPrint(10,10,"Connecting to %s\n",Config.get("SSID"));
-  //DisplayUpdate();
-
   WiFi.begin(Config.get("SSID"), Secure.get("PSK"));
 
-  MDNS.begin(Config.get("DevName"));
+  String sDevName = Config.get("DevName");
+  sDevName.replace(" ","");
+  char DevName[12];
+  sDevName.toCharArray(DevName,sizeof(DevName));
+  MDNS.begin(DevName);
 
   while(WiFi.status() != WL_CONNECTED) 
   { 
@@ -82,35 +98,51 @@ void Connect2LocalWifi(void)
   Serial.println("");
   Serial.print("Connected to WiFi network with IP Address: ");
   Serial.println(WiFi.localIP());
-
-  //DisplayClear();
-  //DisplayUpdate();
 }
 
+//************************************************************
+//************************************************************
 void setup() 
 {
   Serial.begin(115200);
   Serial.println();
   Serial.println();
-  
-  Connect2LocalWifi();
-  SetupOTA();
-  WebInterface.init();
-  SmartMeter.connect();
 
   pinMode(LED, OUTPUT);
   digitalWrite(LED,HIGH);
+
+  if (Secure.get("PSK"))
+  {
+    Connect2LocalWifi();
+    SetupOTA();
+    SmartMeter.connect();
+    WebInterface.init(bInSetupMode);
+  }
+  else
+  {
+    bInSetupMode = true;
+    SetupAP();
+    WebInterface.init(bInSetupMode);
+  }
 }
 
+
+
+//************************************************************
+//************************************************************
 int counter = 0;
 void loop() 
 {
   digitalWrite(LED,(bool)((++counter>>4)&0x1));
 
-  Outputs.update();
-  SmartMeter.update();
+  if (!bInSetupMode)
+  {
+    Outputs.update();
+    SmartMeter.update();
+    ArduinoOTA.handle();
+  }
   WebInterface.update();
-  ArduinoOTA.handle();
+
   //DisplayUpdate();
   delay(50);
 }
