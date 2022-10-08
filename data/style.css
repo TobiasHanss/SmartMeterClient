@@ -16,6 +16,13 @@ html, body {
     text-align: left;
   }
 
+
+  input[type=text] {
+    border: 1px solid rgb(223, 251, 255);
+    background-color: #ffffff;
+    width: 98%;
+  }
+
   input[type=number]:focus {
     border: 1px solid #555;
     background-color: aqua;
@@ -25,12 +32,10 @@ html, body {
     background-color: #f8f9ff;
   }
 
-
   .bgimg  {
-    background-image: url("images.jpeg");
+    background-image: url("banner.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    
     background-position: center;
     color : #f8f9ff;
    }
@@ -62,6 +67,7 @@ html, body {
   background-color: #ccc;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 34px;
 }
 
 .slider:before {
@@ -74,6 +80,7 @@ html, body {
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
+  border-radius: 34px;
 }
 
 input:checked + .slider {
@@ -89,12 +96,3 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-} 
